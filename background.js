@@ -3,6 +3,8 @@ try {
 } catch (e) {
     console.error(e);
 }
+//global variable
+password = null;
 
 chrome.contextMenus.create({
     id: "encrypt-message",
@@ -19,10 +21,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     let altered;
     switch (info.menuItemId) {
         case "encrypt-message":
-            altered = CryptoJS.AES.encrypt(info.selectionText, 'pd').toString();
+            altered = CryptoJS.AES.encrypt(info.selectionText, password).toString();
             break;
         case "decrypt-message":
-            altered = CryptoJS.AES.decrypt(info.selectionText, 'pd').toString(CryptoJS.enc.Utf8);
+            altered = CryptoJS.AES.decrypt(info.selectionText, password).toString(CryptoJS.enc.Utf8);
             break;
         default:
             return;
@@ -38,4 +40,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             //in case of any further operation. if not needed can be removed in the next refactor
          })
         .catch(e => console.error('error message-enc : '+ e));
+});
+
+chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
+    if(message.passwordChanged != null){
+        password = message.passwordChanged;
+    }
 });

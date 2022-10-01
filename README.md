@@ -7,3 +7,5 @@ This extension will adds encryption decryption functionality and easy to use to 
 - customize short key on extension setting
 - disable ajax request on the input fields if extension is activated
 - per tab keep password on menu and not saving though
+- split tokens by space and decrypt them
+- automatic tagging and decryption
