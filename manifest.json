@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
     "name": "MessageEnc",
-    "version": "0.1",
+    "version": "0.1.0",
     "description": "Adds encryption decryption functionality and easy to use to the browser.",
-    "homepage_url": "https://github.com/abilogos/text-enc",
+    "homepage_url": "https://github.com/abilogos/messageEnc",
     "icons": {
         "48": "icons/Lock-48.png",
         "96": "icons/Lock-96.png"
@@ -17,7 +17,6 @@
         "service_worker": "background.js"
     },
     "minimum_chrome_version": "92",
-    
     "action": {
         "default_icon": "icons/Lock-32.png",
         "default_title": "MessageEnc",
