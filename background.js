@@ -1,3 +1,9 @@
+try {
+    importScripts("/node_modules/crypto-js/crypto-js.js");
+} catch (e) {
+    console.log(e);
+}
+
 chrome.contextMenus.create({
     id: "encrypt-message",
     title: "Encrypt Message",
@@ -14,10 +20,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     switch (info.menuItemId) {
         case "encrypt-message":
             console.log(info.selectionText);
-            altered = 'e' + info.selectionText;
+            altered = CryptoJS.AES.encrypt(info.selectionText, 'pd').toString() ;
             break;
         case "decrypt-message":
-            altered = 'd' + info.selectionText;
+            altered = CryptoJS.AES.decrypt(info.selectionText, 'pd').toString(CryptoJS.enc.Utf8);
             break;
         default:
             return;

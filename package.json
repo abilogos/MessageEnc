@@ -1,0 +1,13 @@
+{
+  "name": "MessageEnc",
+  "version": "0.1",
+  "description": "This is a broswer extension to encrypt and decrypt messages using AES for chat applications before sending them",
+  "main": "index.js",
+  "repository": "https://github.com/abilogos/MessageEnc",
+  "author": "Abilogos <dev.abi.log@gmail.com>",
+  "license": "MPL 2.0",
+  "private": false,
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  }
+}
