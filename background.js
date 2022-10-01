@@ -4,7 +4,7 @@ try {
     console.error(e);
 }
 //global variable
-password = null;
+password = [];
 
 chrome.contextMenus.create({
     id: "encrypt-message",
@@ -17,14 +17,23 @@ chrome.contextMenus.create({
     contexts: ["selection"]
 });
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+chrome.contextMenus.onClicked.addListener( async (info, tab) => {
     let altered;
+    let tabId = await getCurrentTabId();
+    if(typeof password[tabId] === 'undefined'){
+        //TODO: alert on no password from content-script
+        return;
+    }
+    
     switch (info.menuItemId) {
         case "encrypt-message":
-            altered = CryptoJS.AES.encrypt(info.selectionText, password).toString();
+            altered = CryptoJS.AES.encrypt(info.selectionText, password[tabId]).toString();
             break;
         case "decrypt-message":
-            altered = CryptoJS.AES.decrypt(info.selectionText, password).toString(CryptoJS.enc.Utf8);
+            altered = CryptoJS.AES.decrypt(info.selectionText, password[tabId]).toString(CryptoJS.enc.Utf8); 
+            if(altered.length == 0 ){
+                return;
+            }
             break;
         default:
             return;
@@ -44,6 +53,11 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     if(message.passwordChanged != null){
-        password = message.passwordChanged;
+        password[message.tabId] = message.passwordChanged;
     }
 });
+
+async function getCurrentTabId(){
+    let [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+    return tab.id
+}
